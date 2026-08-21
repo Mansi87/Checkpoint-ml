@@ -14,5 +14,9 @@ app.register_blueprint(jd_bp, url_prefix='/api')
 app.register_blueprint(tailor_bp, url_prefix='/api')
 app.register_blueprint(parse_bp, url_prefix='/api')
 
+@app.route('/health', methods=['GET'])
+def health():
+    return {"status": "ok"}, 200
+
 if __name__ == '__main__':
     app.run(port=5001, debug=True)

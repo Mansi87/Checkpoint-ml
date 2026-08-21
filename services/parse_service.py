@@ -56,3 +56,30 @@ def parse_resume_file(file, filename):
         "extractedFields": fields,
         "confidence": confidence,
     }
+
+SECTION_HEADERS = ['education', 'experience', 'work experience', 'skills', 'technical skills', 'projects']
+
+def extract_sections(text):
+    lines = [l.strip() for l in text.split('\n') if l.strip()]
+    sections = {}
+    current = None
+
+    for line in lines:
+        lower = line.lower().strip(':')
+        if lower in SECTION_HEADERS:
+            current = lower
+            sections[current] = []
+        elif current:
+            sections[current].append(line)
+
+    def get_lines(keys, limit=5):
+        for k in keys:
+            if k in sections:
+                return sections[k][:limit]
+        return []
+
+    return {
+        "educationLines": get_lines(['education'], 5),
+        "experienceLines": get_lines(['experience', 'work experience'], 5),
+        "skillsLines": get_lines(['skills', 'technical skills'], 5),
+    }

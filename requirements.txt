@@ -5,3 +5,5 @@ numpy
 openai
 pdfplumber
 python-docx
+python-dotenv
+gunicorn
